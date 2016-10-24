@@ -15,15 +15,18 @@ namespace VendingMachine
     public class CoinInserter
     {
         // add a field to specify an object that CoinInserted() will firstvisit
+        private Coin coinInserted;
 
         // rewrite the following constructor with a constructor that takes an object
         // to be set to the above field
-        public CoinInserter()
+        public CoinInserter(Coin c)
         {
+            coinInserted = c;
         }
         public void CoinInserted()
         {
             // You can add only one line here
+            //TODO: Figure this out.
         }
 
     }
@@ -31,8 +34,10 @@ namespace VendingMachine
     public class PurchaseButton
     {
         // add a field to specify an object that ButtonPressed() will first visit
-        public PurchaseButton()
-        { 
+        private Can canPurchased;
+        public PurchaseButton(Can c)
+        {
+            canPurchased = c;
         }
         public void ButtonPressed()
         {

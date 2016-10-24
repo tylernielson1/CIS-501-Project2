@@ -43,6 +43,7 @@ namespace VendingMachine
         private CoinReturnButton coinReturnButton;
 
         // Declare fields for your entity and control objects
+        Can[] products;
 
 
 
