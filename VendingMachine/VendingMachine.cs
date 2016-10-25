@@ -97,35 +97,36 @@ namespace VendingMachine
             canDispenser2 = new CanDispenser(txtCanDispenser, CANNAMES[2]);
             canDispenser3 = new CanDispenser(txtCanDispenser, CANNAMES[3]);
 
+            products[0] = new Can(CANPRICES[0], NUMCANS[0], CANNAMES[0], soldOutLight0, purchasableLight0, canDispenser0);
+            products[1] = new Can(CANPRICES[1], NUMCANS[1], CANNAMES[1], soldOutLight1, purchasableLight1, canDispenser1);
+            products[2] = new Can(CANPRICES[2], NUMCANS[2], CANNAMES[2], soldOutLight2, purchasableLight2, canDispenser2);
+            products[3] = new Can(CANPRICES[3], NUMCANS[3], CANNAMES[3], soldOutLight3, purchasableLight3, canDispenser3);
+
+            coinsInserted[0] = new Coin(COINVALUES[0], NUMCOINS[0], coinDispenser10Yen);
+            coinsInserted[1] = new Coin(COINVALUES[1], NUMCOINS[1], coinDispenser50Yen);
+            coinsInserted[2] = new Coin(COINVALUES[2], NUMCOINS[2], coinDispenser100Yen);
+            coinsInserted[3] = new Coin(COINVALUES[3], NUMCOINS[3], coinDispenser500Yen);
+
             // You must replace the following default constructors with 
             // constructors with arguments (non-default constructors)
             // to pass (set) the first object that ButtonPressed() will
             // visit
-            purchaseButton0 = new PurchaseButton(new Can(CANPRICES[0], NUMCANS[0], CANNAMES[0], soldOutLight0, purchasableLight0, canDispenser0));
-            purchaseButton1 = new PurchaseButton(new Can(CANPRICES[1], NUMCANS[1], CANNAMES[1], soldOutLight1, purchasableLight1, canDispenser1));
-            purchaseButton2 = new PurchaseButton(new Can(CANPRICES[2], NUMCANS[2], CANNAMES[2], soldOutLight2, purchasableLight2, canDispenser2));
-            purchaseButton3 = new PurchaseButton(new Can(CANPRICES[3], NUMCANS[3], CANNAMES[3], soldOutLight3, purchasableLight3, canDispenser3));
+            purchaseButton0 = new PurchaseButton(products[0]);
+            purchaseButton1 = new PurchaseButton(products[1]);
+            purchaseButton2 = new PurchaseButton(products[2]);
+            purchaseButton3 = new PurchaseButton(products[3]);
 
             // You must replace the following default constructors with
             // constructors that take armuments to pass the first object that
             // the CoinInserted() will call
-            coinInserter10Yen = new CoinInserter(new Coin(COINVALUES[0], NUMCOINS[0], coinDispenser10Yen));
-            coinInserter50Yen = new CoinInserter(new Coin(COINVALUES[1], NUMCOINS[1], coinDispenser50Yen));
-            coinInserter100Yen = new CoinInserter(new Coin(COINVALUES[2], NUMCOINS[2], coinDispenser100Yen));
-            coinInserter500Yen = new CoinInserter(new Coin(COINVALUES[3], NUMCOINS[3], coinDispenser500Yen));
+            coinInserter10Yen = new CoinInserter(coinsInserted[0]);
+            coinInserter50Yen = new CoinInserter(coinsInserted[1]);
+            coinInserter100Yen = new CoinInserter(coinsInserted[2]);
+            coinInserter500Yen = new CoinInserter(coinsInserted[3]);
 
             coinReturnButton = new CoinReturnButton(this);
 
             // Instantiate your entity and control objectst5
-            products[0] = purchaseButton0.ThisCan;
-            products[1] = purchaseButton1.ThisCan;
-            products[2] = purchaseButton2.ThisCan;
-            products[3] = purchaseButton3.ThisCan;
-
-            coinsInserted[0] = coinInserter10Yen.ThisCoin;
-            coinsInserted[1] = coinInserter50Yen.ThisCoin;
-            coinsInserted[2] = coinInserter100Yen.ThisCoin;
-            coinsInserted[3] = coinInserter500Yen.ThisCoin;
 
             // Connect these objects
 

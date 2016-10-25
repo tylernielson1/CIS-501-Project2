@@ -64,6 +64,10 @@ namespace VendingMachine
                 soldOutLight.TurnOn();
                 purchasableLight.TurnOff();
             }
+            else
+            {
+                soldOutLight.TurnOff();
+            }
         }
 
 
