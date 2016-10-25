@@ -81,7 +81,7 @@ namespace VendingMachine
         }
         public void ButtonPressed()
         {
-            // You can add only one lines here
+            vm.GetChange();
         }
     }
 }

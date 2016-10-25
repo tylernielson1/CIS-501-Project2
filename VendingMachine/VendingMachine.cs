@@ -268,6 +268,18 @@ namespace VendingMachine
             }
         }
 
+        public void GetChange()
+        {
+            //TODO: figure this ish out.
+            int[] coinsUsed = new int[coinsInserted.Length];
+            int totalCoins = Coin.TotalCoinsInserted;
+            for(int i = coinsInserted.Length - 1; i >= 0; i--)
+            {
+
+            }
+
+        }
+
     
 
         
