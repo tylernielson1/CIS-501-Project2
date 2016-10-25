@@ -43,7 +43,8 @@ namespace VendingMachine
         private CoinReturnButton coinReturnButton;
 
         // Declare fields for your entity and control objects
-        Can[] products;
+        Can[] products = new Can[NUMCANTYPES];
+        Coin[] coinsInserted = new Coin[NUMCOINTYPES];
 
 
 
@@ -100,22 +101,32 @@ namespace VendingMachine
             // constructors with arguments (non-default constructors)
             // to pass (set) the first object that ButtonPressed() will
             // visit
-            purchaseButton0 = new PurchaseButton();
-            purchaseButton1 = new PurchaseButton();
-            purchaseButton2 = new PurchaseButton();
-            purchaseButton3 = new PurchaseButton();
+            purchaseButton0 = new PurchaseButton(new Can(CANPRICES[0], NUMCANS[0], CANNAMES[0], soldOutLight0, purchasableLight0, canDispenser0));
+            purchaseButton1 = new PurchaseButton(new Can(CANPRICES[1], NUMCANS[1], CANNAMES[1], soldOutLight1, purchasableLight1, canDispenser1));
+            purchaseButton2 = new PurchaseButton(new Can(CANPRICES[2], NUMCANS[2], CANNAMES[2], soldOutLight2, purchasableLight2, canDispenser2));
+            purchaseButton3 = new PurchaseButton(new Can(CANPRICES[3], NUMCANS[3], CANNAMES[3], soldOutLight3, purchasableLight3, canDispenser3));
 
             // You must replace the following default constructors with
             // constructors that take armuments to pass the first object that
             // the CoinInserted() will call
-            coinInserter10Yen = new CoinInserter();
-            coinInserter50Yen = new CoinInserter();
-            coinInserter100Yen = new CoinInserter();
-            coinInserter500Yen = new CoinInserter();
+            coinInserter10Yen = new CoinInserter(new Coin(COINVALUES[0], NUMCOINS[0], coinDispenser10Yen));
+            coinInserter50Yen = new CoinInserter(new Coin(COINVALUES[1], NUMCOINS[1], coinDispenser50Yen));
+            coinInserter100Yen = new CoinInserter(new Coin(COINVALUES[2], NUMCOINS[2], coinDispenser100Yen));
+            coinInserter500Yen = new CoinInserter(new Coin(COINVALUES[3], NUMCOINS[3], coinDispenser500Yen));
 
-            coinReturnButton = new CoinReturnButton();
+            coinReturnButton = new CoinReturnButton(this);
 
-            // Instantiate your entity and control objects
+            // Instantiate your entity and control objectst5
+            products[0] = new Can(CANPRICES[0], NUMCANS[0], CANNAMES[0], soldOutLight0, purchasableLight0, canDispenser0);
+            products[1] = new Can(CANPRICES[1], NUMCANS[1], CANNAMES[1], soldOutLight1, purchasableLight1, canDispenser1);
+            products[2] = new Can(CANPRICES[2], NUMCANS[2], CANNAMES[2], soldOutLight2, purchasableLight2, canDispenser2);
+            products[3] = new Can(CANPRICES[3], NUMCANS[3], CANNAMES[3], soldOutLight3, purchasableLight3, canDispenser3);
+
+            coinsInserted[0] = new Coin(COINVALUES[0], NUMCOINS[0], coinDispenser10Yen);
+            coinsInserted[1] = new Coin(COINVALUES[1], NUMCOINS[1], coinDispenser50Yen);
+            coinsInserted[2] = new Coin(COINVALUES[2], NUMCOINS[2], coinDispenser100Yen);
+            coinsInserted[3] = new Coin(COINVALUES[3], NUMCOINS[3], coinDispenser500Yen);
+
             // Connect these objects
 
             // Display debug information
@@ -205,7 +216,8 @@ namespace VendingMachine
 
         private void btnReset_Click(object sender, EventArgs e)
         {
-            // Write the body to reset the field values of entity objects
+            Coin.TotalCoinsInserted = 0;
+
         }
 
         private void displayCanPricesAndNames()
@@ -222,17 +234,25 @@ namespace VendingMachine
 
         private void updateDebugDisplays()
         {
-            // You need to change XXX to appropriate "object.property"
-            /* 
-            displayNum10Yen.Display(XXX);
-            displayNum50Yen.Display(XXX);
-            displayNum100Yen.Display(XXX);
-            displayNum500Yen.Display(XXX);
-            displayNumCans0.Display(XXX);
-            displayNumCans1.Display(XXX);
-            displayNumCans2.Display(XXX);
-            displayNumCans3.Display(XXX);
-             * */
+            displayNum10Yen.Display(coinsInserted[0].Amount);
+            displayNum50Yen.Display(coinsInserted[1].Amount);
+            displayNum100Yen.Display(coinsInserted[2].Amount);
+            displayNum500Yen.Display(coinsInserted[3].Amount);
+            displayNumCans0.Display(products[0].Stock);
+            displayNumCans1.Display(products[1].Stock);
+            displayNumCans2.Display(products[2].Stock);
+            displayNumCans3.Display(products[3].Stock);
+
+            UpdateDisplays();
+        }
+
+        private void UpdateDisplays()
+        {
+            amountDisplay.DisplayAmount(Coin.TotalCoinsInserted);
+            for(int i = 0; i < products.Length; i++)
+            {
+                products[i].UpdateLights();
+            }
         }
 
     

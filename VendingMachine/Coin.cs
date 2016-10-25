@@ -10,7 +10,7 @@ namespace VendingMachine
     {
         private int value;
         private int amount;
-        private CoinInserter coinInserter;
+        private CoinDispenser coinDispenser;
 
         private static int totalCoinsInserted;
 
@@ -26,11 +26,33 @@ namespace VendingMachine
             }
         }
 
-        public Coin(int v, int a, CoinInserter ci)
+        public int Value
+        {
+            get
+            {
+                return value;
+            }
+        }
+
+        public int Amount
+        {
+            get
+            {
+                return amount;
+            }
+        }
+
+        public Coin(int v, int a, CoinDispenser cd)
         {
             value = v;
             amount = a;
-            coinInserter = ci;
+            coinDispenser = cd;
+        }
+
+        public void InsertCoin()
+        {
+            totalCoinsInserted += value;
+            amount++;
         }
     }
 }

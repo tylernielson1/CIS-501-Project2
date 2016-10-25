@@ -11,18 +11,24 @@ namespace VendingMachine
         private int price;
         private int stock;
         private string type;
-        private PurchaseButton pb;
         private Light soldOutLight;
         private Light purchasableLight;
         private CanDispenser canDispense;
 
+        public int Stock
+        {
+            get
+            {
+                return stock;
+            }
+        }
 
-        public Can(int p, int s, string t, PurchaseButton pur, Light sol, Light purl, CanDispenser cd)
+
+        public Can(int p, int s, string t, Light sol, Light purl, CanDispenser cd)
         {
             price = p;
             stock = s;
             type = t;
-            pb = pur;
             soldOutLight = sol;
             purchasableLight = purl;
             canDispense = cd;
@@ -35,6 +41,18 @@ namespace VendingMachine
                 canDispense.Actuate();
                 stock--;
                 //TODO: add rest of purchase method.
+            }
+        }
+
+        public void UpdateLights()
+        {
+            if (Coin.TotalCoinsInserted >= this.price)
+            {
+                purchasableLight.TurnOn();
+            }
+            if(this.stock <= 0)
+            {
+                soldOutLight.TurnOn();
             }
         }
 

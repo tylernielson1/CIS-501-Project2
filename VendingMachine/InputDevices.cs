@@ -25,8 +25,7 @@ namespace VendingMachine
         }
         public void CoinInserted()
         {
-            // You can add only one line here
-            //TODO: Figure this out.
+            coinInserted.InsertCoin();
         }
 
     }
@@ -41,7 +40,7 @@ namespace VendingMachine
         }
         public void ButtonPressed()
         {
-            // You can add only one line here
+            canPurchased.Purchase();
         }
     }
 
@@ -50,8 +49,11 @@ namespace VendingMachine
         // add a field to specify an object that Button Pressed will visit
         // replace the following default constructor with a constructor that takes
         // an object to be set to the above field
-        public CoinReturnButton()
+
+        private VendingMachine vm;
+        public CoinReturnButton(VendingMachine v)
         {
+            vm = v;
         }
         public void ButtonPressed()
         {
