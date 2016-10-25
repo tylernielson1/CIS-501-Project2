@@ -43,8 +43,8 @@ namespace VendingMachine
         private CoinReturnButton coinReturnButton;
 
         // Declare fields for your entity and control objects
-        Can[] products = new Can[NUMCANTYPES];
-        Coin[] coinsInserted = new Coin[NUMCOINTYPES];
+        public Can[] products = new Can[NUMCANTYPES];
+        public Coin[] coinsInserted = new Coin[NUMCOINTYPES];
 
 
 
@@ -117,15 +117,15 @@ namespace VendingMachine
             coinReturnButton = new CoinReturnButton(this);
 
             // Instantiate your entity and control objectst5
-            products[0] = new Can(CANPRICES[0], NUMCANS[0], CANNAMES[0], soldOutLight0, purchasableLight0, canDispenser0);
-            products[1] = new Can(CANPRICES[1], NUMCANS[1], CANNAMES[1], soldOutLight1, purchasableLight1, canDispenser1);
-            products[2] = new Can(CANPRICES[2], NUMCANS[2], CANNAMES[2], soldOutLight2, purchasableLight2, canDispenser2);
-            products[3] = new Can(CANPRICES[3], NUMCANS[3], CANNAMES[3], soldOutLight3, purchasableLight3, canDispenser3);
+            products[0] = purchaseButton0.ThisCan;
+            products[1] = purchaseButton1.ThisCan;
+            products[2] = purchaseButton2.ThisCan;
+            products[3] = purchaseButton3.ThisCan;
 
-            coinsInserted[0] = new Coin(COINVALUES[0], NUMCOINS[0], coinDispenser10Yen);
-            coinsInserted[1] = new Coin(COINVALUES[1], NUMCOINS[1], coinDispenser50Yen);
-            coinsInserted[2] = new Coin(COINVALUES[2], NUMCOINS[2], coinDispenser100Yen);
-            coinsInserted[3] = new Coin(COINVALUES[3], NUMCOINS[3], coinDispenser500Yen);
+            coinsInserted[0] = coinInserter10Yen.ThisCoin;
+            coinsInserted[1] = coinInserter50Yen.ThisCoin;
+            coinsInserted[2] = coinInserter100Yen.ThisCoin;
+            coinsInserted[3] = coinInserter500Yen.ThisCoin;
 
             // Connect these objects
 
@@ -218,6 +218,17 @@ namespace VendingMachine
         {
             Coin.TotalCoinsInserted = 0;
 
+            for(int i = 0; i < products.Length; i++)
+            {
+                products[i].Stock = NUMCANS[i];
+            }
+
+            for(int i = 0; i < coinsInserted.Length; i++)
+            {
+                coinsInserted[i].Inserted = NUMCOINS[i];
+            }
+
+            updateDebugDisplays();
         }
 
         private void displayCanPricesAndNames()
@@ -234,10 +245,10 @@ namespace VendingMachine
 
         private void updateDebugDisplays()
         {
-            displayNum10Yen.Display(coinsInserted[0].Amount);
-            displayNum50Yen.Display(coinsInserted[1].Amount);
-            displayNum100Yen.Display(coinsInserted[2].Amount);
-            displayNum500Yen.Display(coinsInserted[3].Amount);
+            displayNum10Yen.Display(coinsInserted[0].Inserted);
+            displayNum50Yen.Display(coinsInserted[1].Inserted);
+            displayNum100Yen.Display(coinsInserted[2].Inserted);
+            displayNum500Yen.Display(coinsInserted[3].Inserted);
             displayNumCans0.Display(products[0].Stock);
             displayNumCans1.Display(products[1].Stock);
             displayNumCans2.Display(products[2].Stock);
@@ -249,6 +260,7 @@ namespace VendingMachine
         private void UpdateDisplays()
         {
             amountDisplay.DisplayAmount(Coin.TotalCoinsInserted);
+
             for(int i = 0; i < products.Length; i++)
             {
                 products[i].UpdateLights();
