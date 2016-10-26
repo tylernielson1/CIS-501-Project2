@@ -271,12 +271,22 @@ namespace VendingMachine
         {
             //TODO: figure this ish out.
             int[] coinsUsed = new int[coinsInserted.Length];
+            int[] inserted = new int[coinsInserted.Length];
+            
+            for(int i = 0; i < inserted.Length; i++)
+            {
+                inserted[i] = coinsInserted[i].Inserted;
+            }
+
             for(int i = coinsInserted.Length - 1; i >= 0; i--)
             {
                 coinsUsed[i] = (totalCoins / coinsInserted[i].Amount);
                 if (coinsUsed[i] > coinsInserted[i].Inserted)
                 {
-                    coinsUsed[i] = 0;
+                    for(int j = coinsInserted.Length - 1; j >= 0; j--)
+                    {
+                        coinsInserted[j].Inserted = inserted[j];
+                    }
                     return false;
                 }
                 else
