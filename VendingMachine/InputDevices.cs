@@ -33,15 +33,15 @@ namespace VendingMachine
     public class PurchaseButton
     {
         // add a field to specify an object that ButtonPressed() will first visit
-        private Can canPurchased;
+        private Can purchasedCan;
 
         public PurchaseButton(Can c)
         {
-            canPurchased = c;
+            purchasedCan = c;
         }
         public void ButtonPressed()
         {
-            canPurchased.Purchase();
+            VendingMachine.Purchase(purchasedCan);
         }
     }
 
@@ -58,7 +58,7 @@ namespace VendingMachine
         }
         public void ButtonPressed()
         {
-            vm.GetChange();
+            VendingMachine.GetChange(Coin.TotalCoinsInserted);
         }
     }
 }

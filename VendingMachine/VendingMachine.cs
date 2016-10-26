@@ -34,7 +34,7 @@ namespace VendingMachine
         private DebugDisplay displayName0, displayName1, displayName2, displayName3;
         private DebugDisplay displayNumCans0, displayNumCans1, displayNumCans2, displayNumCans3;
         private Light soldOutLight0, soldOutLight1, soldOutLight2, soldOutLight3;
-        private TimerLight noChangeLight;
+        private static TimerLight noChangeLight;
         private Light purchasableLight0, purchasableLight1, purchasableLight2, purchasableLight3;
         private CoinDispenser coinDispenser10Yen, coinDispenser50Yen, coinDispenser100Yen, coinDispenser500Yen;
         private CanDispenser canDispenser0, canDispenser1, canDispenser2, canDispenser3;
@@ -43,8 +43,8 @@ namespace VendingMachine
         private CoinReturnButton coinReturnButton;
 
         // Declare fields for your entity and control objects
-        public Can[] products = new Can[NUMCANTYPES];
-        public Coin[] coinsInserted = new Coin[NUMCOINTYPES];
+        public static Can[] products = new Can[NUMCANTYPES];
+        public static Coin[] coinsInserted = new Coin[NUMCOINTYPES];
 
 
 
@@ -267,35 +267,55 @@ namespace VendingMachine
             }
         }
 
-        public void GetChange()
+        public static bool GetChange(int totalCoins)
         {
             //TODO: figure this ish out.
             int[] coinsUsed = new int[coinsInserted.Length];
-            int totalCoins = Coin.TotalCoinsInserted;
             for(int i = coinsInserted.Length - 1; i >= 0; i--)
             {
-                if(totalCoins >= coinsInserted[i].Amount && coinsInserted[i].Inserted > 0)
+                coinsUsed[i] = (totalCoins / coinsInserted[i].Amount);
+                if (coinsUsed[i] > coinsInserted[i].Inserted)
                 {
-                    coinsUsed[i] = (totalCoins / coinsInserted[i].Amount);
+                    coinsUsed[i] = 0;
+                    return false;
+                }
+                else
+                {
                     totalCoins -= (coinsUsed[i] * coinsInserted[i].Amount);
                     coinsInserted[i].Inserted -= coinsUsed[i];
                 }
             }
-            if(totalCoins > 0)
+
+            Coin.TotalCoinsInserted = totalCoins;
+            for(int i = coinsInserted.Length - 1; i >= 0; i--)
+            {
+                coinsInserted[i].CoinDispense.Actuate(coinsUsed[i]);
+            }
+            return true;
+            //Coin.TotalCoinsInserted = 0;
+
+            /*if(totalCoins > 0)
             {
                 noChangeLight.TurnOn3Sec();
-            }
-            else
+            }*/
+
+            //updateDebugDisplays();
+        }
+
+        public static void Purchase(Can product)
+        {
+            if (product.purchasableLight.IsOn() && !product.soldOutLight.IsOn())
             {
-                for(int i = coinsInserted.Length - 1; i >= 0; i--)
+                if (GetChange(Coin.TotalCoinsInserted - product.Price))
                 {
-                    coinsInserted[i].CoinDispense.Actuate(coinsUsed[i]);
+                    product.canDispense.Actuate();
+                    product.Stock = product.Stock - 1;
                 }
-                Coin.TotalCoinsInserted = 0;
+                else
+                {
+                    noChangeLight.TurnOn3Sec();
+                }
             }
-
-            updateDebugDisplays();
-
         }
     }
 }

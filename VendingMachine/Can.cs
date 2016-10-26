@@ -11,11 +11,19 @@ namespace VendingMachine
         private int price;
         private int stock;
         private string type;
-        private Light soldOutLight;
-        private Light purchasableLight;
-        private CanDispenser canDispense;
+        public Light soldOutLight;
+        public Light purchasableLight;
+        public CanDispenser canDispense;
 
         public static CoinReturnButton cr;
+
+        public CoinReturnButton coinReturn
+        {
+            get
+            {
+                return cr;
+            }
+        }
 
         public int Stock
         {
@@ -26,6 +34,18 @@ namespace VendingMachine
             set
             {
                 stock = value;
+            }
+        }
+
+        public int Price
+        {
+            get
+            {
+                return price;
+            }
+            set
+            {
+                price = value;
             }
         }
 
@@ -41,16 +61,23 @@ namespace VendingMachine
             cr = c;
         }
 
-        public void Purchase()
+        /*public void Purchase()
         {
             if(purchasableLight.IsOn() && !soldOutLight.IsOn())
             {
-                canDispense.Actuate();
-                this.Stock = this.stock - 1;
-                Coin.TotalCoinsInserted -= this.price;
-                cr.ButtonPressed();
+                if(Coin.GetChange())
+                {
+                    canDispense.Actuate();
+                    this.Stock = this.stock - 1;
+                    Coin.TotalCoinsInserted -= this.price;
+                    cr.ButtonPressed();
+                }
+                else
+                {
+                    vm.no
+                }
             }
-        }
+        }*/
 
         public void UpdateLights()
         {

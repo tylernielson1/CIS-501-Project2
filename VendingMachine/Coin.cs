@@ -70,5 +70,41 @@ namespace VendingMachine
             inserted++;
             totalCoinsInserted += amount;
         }
+
+        /*public static bool GetChange()
+        {
+            //TODO: figure this ish out.
+            int[] coinsUsed = new int[VendingMachine.coinsInserted.Length];
+            int totalCoins = Coin.TotalCoinsInserted;
+            for (int i = VendingMachine.coinsInserted.Length - 1; i >= 0; i--)
+            {
+                coinsUsed[i] = (totalCoins / VendingMachine.coinsInserted[i].Amount);
+                if (coinsUsed[i] > VendingMachine.coinsInserted[i].Inserted)
+                {
+                    coinsUsed[i] = 0;
+                    return false;
+                }
+                else
+                {
+                    totalCoins -= (coinsUsed[i] * VendingMachine.coinsInserted[i].Amount);
+                    VendingMachine.coinsInserted[i].Inserted -= coinsUsed[i];
+                }
+            }
+
+            Coin.TotalCoinsInserted = totalCoins;
+            for (int i = VendingMachine.coinsInserted.Length - 1; i >= 0; i--)
+            {
+                VendingMachine.coinsInserted[i].CoinDispense.Actuate(coinsUsed[i]);
+            }
+            return true;
+            //Coin.TotalCoinsInserted = 0;
+
+            /*if(totalCoins > 0)
+            {
+                noChangeLight.TurnOn3Sec();
+            }
+
+            //updateDebugDisplays();
+        }*/
     }
 }
