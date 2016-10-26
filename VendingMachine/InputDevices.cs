@@ -17,18 +17,6 @@ namespace VendingMachine
         // add a field to specify an object that CoinInserted() will firstvisit
         private Coin coinInserted;
 
-        public Coin ThisCoin
-        {
-            get
-            {
-                return coinInserted;
-            }
-            set
-            {
-                coinInserted = value;
-            }
-        }
-
         // rewrite the following constructor with a constructor that takes an object
         // to be set to the above field
         public CoinInserter(Coin c)
@@ -47,17 +35,6 @@ namespace VendingMachine
         // add a field to specify an object that ButtonPressed() will first visit
         private Can canPurchased;
 
-        public Can ThisCan
-        {
-            get
-            {
-                return canPurchased;
-            }
-            set
-            {
-                canPurchased = value;
-            }
-        }
         public PurchaseButton(Can c)
         {
             canPurchased = c;

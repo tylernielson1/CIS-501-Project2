@@ -15,6 +15,8 @@ namespace VendingMachine
         private Light purchasableLight;
         private CanDispenser canDispense;
 
+        public static CoinReturnButton cr;
+
         public int Stock
         {
             get
@@ -28,7 +30,7 @@ namespace VendingMachine
         }
 
 
-        public Can(int p, int s, string t, Light sol, Light purl, CanDispenser cd)
+        public Can(int p, int s, string t, Light sol, Light purl, CanDispenser cd, CoinReturnButton c)
         {
             price = p;
             stock = s;
@@ -36,6 +38,7 @@ namespace VendingMachine
             soldOutLight = sol;
             purchasableLight = purl;
             canDispense = cd;
+            cr = c;
         }
 
         public void Purchase()
@@ -45,7 +48,7 @@ namespace VendingMachine
                 canDispense.Actuate();
                 this.Stock = this.stock - 1;
                 Coin.TotalCoinsInserted -= this.price;
-                //TODO: add rest of purchase method.
+                cr.ButtonPressed();
             }
         }
 

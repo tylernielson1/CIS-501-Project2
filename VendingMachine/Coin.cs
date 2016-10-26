@@ -50,6 +50,14 @@ namespace VendingMachine
             }
         }
 
+        public CoinDispenser CoinDispense
+        {
+            get
+            {
+                return coinDispenser;
+            }
+        }
+
         public Coin(int a, int i, CoinDispenser cd)
         {
             amount = a;

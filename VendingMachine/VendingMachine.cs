@@ -97,10 +97,12 @@ namespace VendingMachine
             canDispenser2 = new CanDispenser(txtCanDispenser, CANNAMES[2]);
             canDispenser3 = new CanDispenser(txtCanDispenser, CANNAMES[3]);
 
-            products[0] = new Can(CANPRICES[0], NUMCANS[0], CANNAMES[0], soldOutLight0, purchasableLight0, canDispenser0);
-            products[1] = new Can(CANPRICES[1], NUMCANS[1], CANNAMES[1], soldOutLight1, purchasableLight1, canDispenser1);
-            products[2] = new Can(CANPRICES[2], NUMCANS[2], CANNAMES[2], soldOutLight2, purchasableLight2, canDispenser2);
-            products[3] = new Can(CANPRICES[3], NUMCANS[3], CANNAMES[3], soldOutLight3, purchasableLight3, canDispenser3);
+            coinReturnButton = new CoinReturnButton(this);
+
+            products[0] = new Can(CANPRICES[0], NUMCANS[0], CANNAMES[0], soldOutLight0, purchasableLight0, canDispenser0, coinReturnButton);
+            products[1] = new Can(CANPRICES[1], NUMCANS[1], CANNAMES[1], soldOutLight1, purchasableLight1, canDispenser1, coinReturnButton);
+            products[2] = new Can(CANPRICES[2], NUMCANS[2], CANNAMES[2], soldOutLight2, purchasableLight2, canDispenser2, coinReturnButton);
+            products[3] = new Can(CANPRICES[3], NUMCANS[3], CANNAMES[3], soldOutLight3, purchasableLight3, canDispenser3, coinReturnButton);
 
             coinsInserted[0] = new Coin(COINVALUES[0], NUMCOINS[0], coinDispenser10Yen);
             coinsInserted[1] = new Coin(COINVALUES[1], NUMCOINS[1], coinDispenser50Yen);
@@ -124,7 +126,7 @@ namespace VendingMachine
             coinInserter100Yen = new CoinInserter(coinsInserted[2]);
             coinInserter500Yen = new CoinInserter(coinsInserted[3]);
 
-            coinReturnButton = new CoinReturnButton(this);
+            
 
             // Instantiate your entity and control objectst5
 
@@ -222,10 +224,7 @@ namespace VendingMachine
             for(int i = 0; i < products.Length; i++)
             {
                 products[i].Stock = NUMCANS[i];
-            }
-
-            for(int i = 0; i < coinsInserted.Length; i++)
-            {
+                coinsInserted[i].CoinDispense.Actuate(0);
                 coinsInserted[i].Inserted = NUMCOINS[i];
             }
 
@@ -275,13 +274,28 @@ namespace VendingMachine
             int totalCoins = Coin.TotalCoinsInserted;
             for(int i = coinsInserted.Length - 1; i >= 0; i--)
             {
-
+                if(totalCoins >= coinsInserted[i].Amount && coinsInserted[i].Inserted > 0)
+                {
+                    coinsUsed[i] = (totalCoins / coinsInserted[i].Amount);
+                    totalCoins -= (coinsUsed[i] * coinsInserted[i].Amount);
+                    coinsInserted[i].Inserted -= coinsUsed[i];
+                }
+            }
+            if(totalCoins > 0)
+            {
+                noChangeLight.TurnOn3Sec();
+            }
+            else
+            {
+                for(int i = coinsInserted.Length - 1; i >= 0; i--)
+                {
+                    coinsInserted[i].CoinDispense.Actuate(coinsUsed[i]);
+                }
+                Coin.TotalCoinsInserted = 0;
             }
 
+            updateDebugDisplays();
+
         }
-
-    
-
-        
     }
 }
