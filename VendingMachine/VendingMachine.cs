@@ -269,7 +269,6 @@ namespace VendingMachine
 
         public static bool GetChange(int totalCoins)
         {
-            //TODO: figure this ish out.
             int[] coinsUsed = new int[coinsInserted.Length];
             int[] inserted = new int[coinsInserted.Length];
             
